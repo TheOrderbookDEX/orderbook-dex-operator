@@ -2,7 +2,7 @@
 
 pragma solidity 0.8.15;
 
-import { IOrderbook } from "orderbook-dex/contracts/interfaces/IOrderbook.sol";
+import { IOrderbook } from "@theorderbookdex/orderbook-dex/contracts/interfaces/IOrderbook.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract OrderbookMock is IOrderbook {

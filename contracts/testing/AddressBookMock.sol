@@ -2,7 +2,7 @@
 
 pragma solidity 0.8.15;
 
-import { IAddressBook } from "addressbook/contracts/interfaces/IAddressBook.sol";
+import { IAddressBook } from "@theorderbookdex/addressbook/contracts/interfaces/IAddressBook.sol";
 
 contract AddressBookMock is IAddressBook {
     event RegisterCalled(address sender);

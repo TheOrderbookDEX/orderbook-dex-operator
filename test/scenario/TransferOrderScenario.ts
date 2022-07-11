@@ -1,5 +1,5 @@
-import { Transaction } from 'abi2ts-lib';
-import { Account, AddContextFunction } from 'contract-test-helper';
+import { Transaction } from '@theorderbookdex/abi2ts-lib';
+import { Account, AddContextFunction } from '@theorderbookdex/contract-test-helper';
 import { TransferOrderResult } from '../../src/interfaces/IOperator';
 import { OrderbookOperationContext, OrderbookOperationScenario, OrderbookOperationScenarioProperties } from './OrderbookOperationScenario';
 

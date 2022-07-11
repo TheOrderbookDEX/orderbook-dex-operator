@@ -1,5 +1,5 @@
-import { formatValue, Transaction } from 'abi2ts-lib';
-import { AddContextFunction } from 'contract-test-helper';
+import { formatValue, Transaction } from '@theorderbookdex/abi2ts-lib';
+import { AddContextFunction } from '@theorderbookdex/contract-test-helper';
 import { SellAtMarketResult } from '../../src/interfaces/IOperator';
 import { OrderbookOperationContext, OrderbookOperationScenario, OrderbookOperationScenarioProperties } from './OrderbookOperationScenario';
 

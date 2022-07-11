@@ -1,9 +1,9 @@
-import { Account, AddContextFunction, BaseTestContext, TestScenario, TestScenarioProperties } from 'contract-test-helper';
-import { ERC20Mock } from 'orderbook-dex/dist/testing/ERC20Mock';
+import { Account, AddContextFunction, BaseTestContext, TestScenario, TestScenarioProperties } from '@theorderbookdex/contract-test-helper';
+import { ERC20Mock } from '@theorderbookdex/orderbook-dex/dist/testing/ERC20Mock';
 import { OperatorLogicRegistry } from '../../src/OperatorLogicRegistry';
 import { Operator } from '../../src/Operator';
 import { AddressBookMock } from '../../src/testing/AddressBookMock';
-import { parseValue } from 'abi2ts-lib';
+import { parseValue } from '@theorderbookdex/abi2ts-lib';
 
 export interface DeployOperatorContext extends BaseTestContext {
     readonly addressBook: AddressBookMock;

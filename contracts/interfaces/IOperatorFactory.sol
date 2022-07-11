@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 import { IOperatorLogicRegistry } from "./IOperatorLogicRegistry.sol";
-import { IAddressBook } from "addressbook/contracts/interfaces/IAddressBook.sol";
+import { IAddressBook } from "@theorderbookdex/addressbook/contracts/interfaces/IAddressBook.sol";
 
 /**
  * Operator factory.

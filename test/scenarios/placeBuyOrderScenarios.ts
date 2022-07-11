@@ -1,10 +1,10 @@
-import { Account, generatorChain, range } from 'contract-test-helper';
+import { Account, generatorChain, range } from '@theorderbookdex/contract-test-helper';
 import { describer } from '../describer/describer';
 import { OrderbookVersionNotSupported, Unauthorized } from '../../src/Operator';
 import { RegisterOperatorLogicAction } from '../action/RegisterOperatorLogicAction';
 import { hexlify } from 'ethers/lib/utils';
 import { PlaceBuyOrderScenario } from '../scenario/PlaceBuyOrderScenario';
-import { parseValue } from 'abi2ts-lib';
+import { parseValue } from '@theorderbookdex/abi2ts-lib';
 
 export const placeBuyOrderScenarios: [string, Iterable<PlaceBuyOrderScenario>][] = [];
 

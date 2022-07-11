@@ -1,4 +1,4 @@
-import { Account, generatorChain, range } from 'contract-test-helper';
+import { Account, generatorChain, range } from '@theorderbookdex/contract-test-helper';
 import { describer } from '../describer/describer';
 import { OrderbookVersionNotSupported, Unauthorized } from '../../src/Operator';
 import { RegisterOperatorLogicAction } from '../action/RegisterOperatorLogicAction';

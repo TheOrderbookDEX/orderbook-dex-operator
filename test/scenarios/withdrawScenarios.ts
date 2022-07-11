@@ -1,9 +1,9 @@
-import { Account, generatorChain, range } from 'contract-test-helper';
+import { Account, generatorChain, range } from '@theorderbookdex/contract-test-helper';
 import { describer } from '../describer/describer';
 import { WithdrawERC20Scenario } from '../scenario/WithdrawScenario';
 import { TransferTokensToOperatorAction } from '../action/TransferTokensToOperatorAction';
 import { Unauthorized } from '../../src/Operator';
-import { parseValue } from 'abi2ts-lib';
+import { parseValue } from '@theorderbookdex/abi2ts-lib';
 
 export const withdrawERC20Scenarios: [string, Iterable<WithdrawERC20Scenario>][] = [];
 

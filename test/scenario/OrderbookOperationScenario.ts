@@ -1,4 +1,4 @@
-import { AddContextFunction } from 'contract-test-helper';
+import { AddContextFunction } from '@theorderbookdex/contract-test-helper';
 import { OrderbookMock } from '../../src/testing/OrderbookMock';
 import { describeVersion } from '../describer/describer';
 import { OperatorContext, OperatorScenario, OperatorScenarioProperties } from './OperatorScenario';

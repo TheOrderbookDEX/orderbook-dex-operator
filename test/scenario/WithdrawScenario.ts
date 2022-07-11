@@ -1,5 +1,5 @@
-import { formatValue, Transaction } from 'abi2ts-lib';
-import { AddContextFunction } from 'contract-test-helper';
+import { formatValue, Transaction } from '@theorderbookdex/abi2ts-lib';
+import { AddContextFunction } from '@theorderbookdex/contract-test-helper';
 import { OperatorContext, OperatorScenario, OperatorScenarioProperties } from './OperatorScenario';
 
 // TODO test multiple token withdrawal

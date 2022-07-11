@@ -1,5 +1,5 @@
 import { DeployOperatorScenario } from '../scenario/DeployOperatorScenario';
-import { Account, generatorChain } from 'contract-test-helper';
+import { Account, generatorChain } from '@theorderbookdex/contract-test-helper';
 import { describer } from '../describer/describer';
 
 export const deployOperatorScenarios: Iterable<DeployOperatorScenario> = generatorChain(function*() {
