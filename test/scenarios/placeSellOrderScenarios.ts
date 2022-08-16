@@ -2,9 +2,8 @@ import { Account, generatorChain, range } from '@theorderbookdex/contract-test-h
 import { describer } from '../describer/describer';
 import { OrderbookVersionNotSupported, Unauthorized } from '../../src/Operator';
 import { RegisterOperatorLogicAction } from '../action/RegisterOperatorLogicAction';
-import { hexlify } from 'ethers/lib/utils';
 import { PlaceSellOrderScenario } from '../scenario/PlaceSellOrderScenario';
-import { parseValue } from '@theorderbookdex/abi2ts-lib';
+import { abiencode, parseValue } from '@theorderbookdex/abi2ts-lib';
 
 export const placeSellOrderScenarios: [string, Iterable<PlaceSellOrderScenario>][] = [];
 
@@ -33,7 +32,7 @@ placeSellOrderScenarios.push([
         for (const extraData of range(1, 2)) {
             yield {
                 ...properties,
-                extraData: hexlify(extraData),
+                extraData: abiencode(['uint8'], [extraData]),
             };
         }
 

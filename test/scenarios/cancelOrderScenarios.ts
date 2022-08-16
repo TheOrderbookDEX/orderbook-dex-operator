@@ -2,8 +2,8 @@ import { Account, generatorChain, range } from '@theorderbookdex/contract-test-h
 import { describer } from '../describer/describer';
 import { OrderbookVersionNotSupported, Unauthorized } from '../../src/Operator';
 import { RegisterOperatorLogicAction } from '../action/RegisterOperatorLogicAction';
-import { hexlify } from 'ethers/lib/utils';
 import { CancelOrderScenario } from '../scenario/CancelOrderScenario';
+import { abiencode } from '@theorderbookdex/abi2ts-lib';
 
 export const cancelOrderScenarios: [string, Iterable<CancelOrderScenario>][] = [];
 
@@ -16,7 +16,7 @@ cancelOrderScenarios.push([
         for (const orderId of range(1, 2)) {
             yield {
                 ...properties,
-                orderId: hexlify(orderId),
+                orderId: abiencode(['uint8'], [orderId]),
             };
         }
 
@@ -24,7 +24,7 @@ cancelOrderScenarios.push([
         for (const extraData of range(1, 2)) {
             yield {
                 ...properties,
-                extraData: hexlify(extraData),
+                extraData: abiencode(['uint8'], [extraData]),
             };
         }
 

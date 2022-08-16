@@ -3,8 +3,7 @@ import { describer } from '../describer/describer';
 import { OrderbookVersionNotSupported, Unauthorized } from '../../src/Operator';
 import { SellAtMarketScenario } from '../scenario/SellAtMarketScenario';
 import { RegisterOperatorLogicAction } from '../action/RegisterOperatorLogicAction';
-import { hexlify } from 'ethers/lib/utils';
-import { parseValue } from '@theorderbookdex/abi2ts-lib';
+import { abiencode, parseValue } from '@theorderbookdex/abi2ts-lib';
 
 export const sellAtMarketScenarios: [string, Iterable<SellAtMarketScenario>][] = [];
 
@@ -33,7 +32,7 @@ sellAtMarketScenarios.push([
         for (const extraData of range(1, 2)) {
             yield {
                 ...properties,
-                extraData: hexlify(extraData),
+                extraData: abiencode(['uint8'], [extraData]),
             };
         }
 

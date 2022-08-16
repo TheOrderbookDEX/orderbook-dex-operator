@@ -2,8 +2,8 @@ import { Account, generatorChain, range } from '@theorderbookdex/contract-test-h
 import { describer } from '../describer/describer';
 import { OrderbookVersionNotSupported, Unauthorized } from '../../src/Operator';
 import { RegisterOperatorLogicAction } from '../action/RegisterOperatorLogicAction';
-import { hexlify } from 'ethers/lib/utils';
 import { TransferOrderScenario } from '../scenario/TransferOrderScenario';
+import { abiencode } from '@theorderbookdex/abi2ts-lib';
 
 export const transferOrderScenarios: [string, Iterable<TransferOrderScenario>][] = [];
 
@@ -16,7 +16,7 @@ transferOrderScenarios.push([
         for (const orderId of range(1, 2)) {
             yield {
                 ...properties,
-                orderId: hexlify(orderId),
+                orderId: abiencode(['uint8'], [orderId]),
             };
         }
 
