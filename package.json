@@ -1,6 +1,6 @@
 {
   "name": "@theorderbookdex/orderbook-dex-operator",
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.5",
   "description": "This is the package for the Operator smart contract of The Orderbook DEX",
   "license": "BUSL-1.1",
   "author": "The Orderbook DEX Team",
@@ -14,7 +14,7 @@
     "@openzeppelin/contracts": "4.7.3",
     "@theorderbookdex/abi2ts-lib": "~0.2.0",
     "@theorderbookdex/addressbook": "^1.1.1",
-    "@theorderbookdex/orderbook-dex": "1.0.0-rc.3"
+    "@theorderbookdex/orderbook-dex": "1.0.0-rc.4"
   },
   "devDependencies": {
     "@theorderbookdex/abi2ts": "~0.2.0",
