@@ -4,7 +4,7 @@ pragma solidity 0.8.15;
 
 import { IOperatorFactory } from "./interfaces/IOperatorFactory.sol";
 import { IOperatorLogicRegistry } from "./interfaces/IOperatorLogicRegistry.sol";
-import { IAddressBook } from "@theorderbookdex/addressbook/contracts/interfaces/IAddressBook.sol";
+import { IAddressBook } from "@frugal-wizard/addressbook/contracts/interfaces/IAddressBook.sol";
 import { Operator } from "./Operator.sol";
 
 /**

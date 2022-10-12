@@ -1,4 +1,4 @@
-import { Account, ConfigurableDescriber } from '@theorderbookdex/contract-test-helper';
+import { Account, ConfigurableDescriber } from '@frugal-wizard/contract-test-helper';
 import { RegisterOperatorLogicAction } from '../action/RegisterOperatorLogicAction';
 import { TransferTokensToOperatorAction } from '../action/TransferTokensToOperatorAction';
 import { BuyAtMarketScenario } from '../scenario/BuyAtMarketScenario';
@@ -10,7 +10,7 @@ import { SellAtMarketScenario } from '../scenario/SellAtMarketScenario';
 import { PlaceSellOrderScenario } from '../scenario/PlaceSellOrderScenario';
 import { TransferOrderScenario } from '../scenario/TransferOrderScenario';
 import { WithdrawERC20Scenario } from '../scenario/WithdrawScenario';
-import { formatValue } from '@theorderbookdex/abi2ts-lib';
+import { formatValue } from '@frugal-wizard/abi2ts-lib';
 
 export const describer = new ConfigurableDescriber<never>();
 

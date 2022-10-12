@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
-import { DefaultOverrides } from '@theorderbookdex/abi2ts-lib';
+import { DefaultOverrides } from '@frugal-wizard/abi2ts-lib';
 import chaiAsPromised from 'chai-as-promised';
-import { describeError, is } from '@theorderbookdex/contract-test-helper';
+import { describeError, is } from '@frugal-wizard/contract-test-helper';
 import { RegisterCalled } from '../src/testing/AddressBookMock';
 import { BuyAtMarketCalled, PlaceBuyOrderCalled, CancelOrderCalled, ClaimOrderCalled, SellAtMarketCalled, PlaceSellOrderCalled, TransferOrderCalled } from '../src/testing/OperatorLogicMock';
 import { buyAtMarketScenarios } from './scenarios/buyAtMarketScenarios';

@@ -1,9 +1,9 @@
-import { Account, generatorChain, range } from '@theorderbookdex/contract-test-helper';
+import { Account, generatorChain, range } from '@frugal-wizard/contract-test-helper';
 import { describer } from '../describer/describer';
 import { OrderbookVersionNotSupported, Unauthorized } from '../../src/Operator';
 import { RegisterOperatorLogicAction } from '../action/RegisterOperatorLogicAction';
 import { PlaceBuyOrderScenario } from '../scenario/PlaceBuyOrderScenario';
-import { abiencode, parseValue } from '@theorderbookdex/abi2ts-lib';
+import { abiencode, parseValue } from '@frugal-wizard/abi2ts-lib';
 
 export const placeBuyOrderScenarios: [string, Iterable<PlaceBuyOrderScenario>][] = [];
 

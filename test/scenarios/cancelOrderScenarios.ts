@@ -1,9 +1,9 @@
-import { Account, generatorChain, range } from '@theorderbookdex/contract-test-helper';
+import { Account, generatorChain, range } from '@frugal-wizard/contract-test-helper';
 import { describer } from '../describer/describer';
 import { OrderbookVersionNotSupported, Unauthorized } from '../../src/Operator';
 import { RegisterOperatorLogicAction } from '../action/RegisterOperatorLogicAction';
 import { CancelOrderScenario } from '../scenario/CancelOrderScenario';
-import { abiencode } from '@theorderbookdex/abi2ts-lib';
+import { abiencode } from '@frugal-wizard/abi2ts-lib';
 
 export const cancelOrderScenarios: [string, Iterable<CancelOrderScenario>][] = [];
 

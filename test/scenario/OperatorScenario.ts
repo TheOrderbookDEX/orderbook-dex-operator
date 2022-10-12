@@ -1,5 +1,5 @@
-import { parseValue } from '@theorderbookdex/abi2ts-lib';
-import { Account, AddContextFunction, BaseTestContext, TestScenario, TestScenarioProperties } from '@theorderbookdex/contract-test-helper';
+import { parseValue } from '@frugal-wizard/abi2ts-lib';
+import { Account, AddContextFunction, BaseTestContext, TestScenario, TestScenarioProperties } from '@frugal-wizard/contract-test-helper';
 import { ERC20Mock } from '@theorderbookdex/orderbook-dex/dist/testing/ERC20Mock';
 import { IOperator } from '../../src/interfaces/IOperator';
 import { Operator } from '../../src/Operator';

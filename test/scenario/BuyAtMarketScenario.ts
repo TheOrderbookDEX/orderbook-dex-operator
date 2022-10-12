@@ -1,5 +1,5 @@
-import { formatValue, Transaction } from '@theorderbookdex/abi2ts-lib';
-import { AddContextFunction } from '@theorderbookdex/contract-test-helper';
+import { formatValue, Transaction } from '@frugal-wizard/abi2ts-lib';
+import { AddContextFunction } from '@frugal-wizard/contract-test-helper';
 import { BuyAtMarketResult } from '../../src/interfaces/IOperator';
 import { OrderbookOperationContext, OrderbookOperationScenario, OrderbookOperationScenarioProperties } from './OrderbookOperationScenario';
 

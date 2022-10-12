@@ -1,5 +1,5 @@
-import { Transaction } from '@theorderbookdex/abi2ts-lib';
-import { AddContextFunction } from '@theorderbookdex/contract-test-helper';
+import { Transaction } from '@frugal-wizard/abi2ts-lib';
+import { AddContextFunction } from '@frugal-wizard/contract-test-helper';
 import { CancelOrderResult } from '../../src/interfaces/IOperator';
 import { OrderbookOperationContext, OrderbookOperationScenario, OrderbookOperationScenarioProperties } from './OrderbookOperationScenario';
 
