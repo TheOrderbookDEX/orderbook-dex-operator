@@ -1,23 +1,23 @@
 import { OperatorContext } from '../scenario/OperatorScenario';
 import { OperatorAction, OperatorActionProperties } from './OperatorAction';
 
-export interface TransferTokensToOperatorActionProperties extends OperatorActionProperties {
+export interface DepositERC20ActionProperties extends OperatorActionProperties {
     readonly amount: bigint;
 }
 
-export class TransferTokensToOperatorAction extends OperatorAction {
+export class DepositERC20Action extends OperatorAction {
     readonly amount: bigint;
 
     constructor({
         amount,
         ...rest
-    }: TransferTokensToOperatorActionProperties) {
+    }: DepositERC20ActionProperties) {
         super(rest);
         this.amount = amount;
     }
 
     async execute(ctx: OperatorContext) {
-        await ctx.testToken.transfer(ctx.operator, this.amount);
+        await ctx.erc20.transfer(ctx.operator, this.amount);
     }
 
     apply<T>(state: T) {

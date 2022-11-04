@@ -2,81 +2,60 @@
 
 pragma solidity 0.8.15;
 
-import { IOperatorBase, ERC20AndAmount } from "./interfaces/IOperatorBase.sol";
-import { IOperatorLogicRegistry } from "./interfaces/IOperatorLogicRegistry.sol";
+import { IOperatorAdmin } from "./interfaces/IOperatorAdmin.sol";
 import { IAddressBook } from "@frugal-wizard/addressbook/contracts/interfaces/IAddressBook.sol";
-import { IOrderbook } from "@theorderbookdex/orderbook-dex/contracts/interfaces/IOrderbook.sol";
-import { Address } from "@openzeppelin/contracts/utils/Address.sol";
-import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
-// TODO add withdrawERC721
-// TODO add withdrawERC1155
+import { Proxy } from "@openzeppelin/contracts/proxy/Proxy.sol";
+import { ERC1967Upgrade } from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Upgrade.sol";
+import { OperatorOwner } from "./OperatorOwner.sol";
 
 /**
- * Operator.
+ * The Operator.
  *
- * This contract interacts with orderbooks on behalf of an user, providing
- * a more user friendly interface. It acts as wallet for assets to be traded,
- * the user has to transfer the funds they want to trade with to the operator.
- *
- * All functions can only be called by the owner.
+ * This contract is based on OpenZeppelin's TransparentUpgradeableProxy.
  */
-contract Operator is IOperatorBase {
-    using Address for address;
-
-    /**
-     * The owner of the operator.
-     */
-    address private immutable _owner;
-
-    /**
-     * The operator logic registry used by the operator.
-     */
-    IOperatorLogicRegistry private immutable _logicRegistry;
-
+contract Operator is Proxy, ERC1967Upgrade, IOperatorAdmin {
     /**
      * Constructor.
      *
+     * The proxy admin should be the OperatorFactory creating this Operator.
+     *
      * The operator registers itself to the address book on creation.
      *
-     * @param owner_         the owner of the operator
-     * @param logicRegistry_ the operator logic registry used by the operator
+     * @param admin          the proxy admin
+     * @param owner          the operator owner
+     * @param implementation the operator implementation
      * @param addressBook    the address book
      */
-    constructor(address owner_, IOperatorLogicRegistry logicRegistry_, IAddressBook addressBook) {
-        _owner = owner_;
-        _logicRegistry = logicRegistry_;
+    constructor(address admin, address owner, address implementation, IAddressBook addressBook) {
+        _changeAdmin(admin);
+        OperatorOwner.setOwner(owner);
+        _upgradeTo(implementation);
         addressBook.register();
     }
 
-    function withdrawERC20(ERC20AndAmount[] calldata tokensAndAmounts) external {
-        if (msg.sender != _owner) {
-            revert Unauthorized();
-        }
-        for (uint256 i = 0; i < tokensAndAmounts.length; i++) {
-            tokensAndAmounts[i].token.transfer(msg.sender, tokensAndAmounts[i].amount);
+    /**
+     * Modifier for functions that are only accessible to the proxy admin.
+     */
+    modifier ifAdmin() {
+        if (msg.sender == _getAdmin()) {
+            _;
+        } else {
+            _fallback();
         }
     }
 
-    function owner() external view returns(address) {
-        return _owner;
+    function upgradeTo(address implementation) external ifAdmin {
+        _upgradeTo(implementation);
     }
 
-    function logicRegistry() external view returns(IOperatorLogicRegistry) {
-        return _logicRegistry;
+    function _implementation() internal view override returns (address) {
+        return _getImplementation();
     }
 
-    fallback(bytes calldata input) external returns (bytes memory) {
-        if (msg.sender != _owner) {
-            revert Unauthorized();
-        }
-        // First argument should always be the orderbook address
-        IOrderbook orderbook = IOrderbook(abi.decode(input[4:], (address)));
-        // Get the operator logic for the orderbook version
-        address operatorLogic = _logicRegistry.operatorLogic(orderbook.version());
-        if (operatorLogic == address(0)) {
-            revert OrderbookVersionNotSupported();
-        }
-        return operatorLogic.functionDelegateCall(input);
+    function _beforeFallback() internal override {
+        // The proxy admin should not have access to the fallback
+        // check OpenZeppelin's docs of TransparentUpgradeableProxy for the reason why
+        require(msg.sender != _getAdmin());
+        super._beforeFallback();
     }
 }

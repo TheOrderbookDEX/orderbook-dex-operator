@@ -2,8 +2,6 @@ import { formatValue, Transaction } from '@frugal-wizard/abi2ts-lib';
 import { AddContextFunction } from '@frugal-wizard/contract-test-helper';
 import { OperatorContext, OperatorScenario, OperatorScenarioProperties } from './OperatorScenario';
 
-// TODO test multiple token withdrawal
-
 export interface WithdrawERC20ScenarioProperties extends OperatorScenarioProperties {
     readonly amount: bigint;
 }
@@ -28,11 +26,13 @@ export class WithdrawERC20Scenario extends OperatorScenario<OperatorContext, Tra
         return await this._setup();
     }
 
-    async execute({ operator, testToken, [this.caller]: from }: OperatorContext) {
-        return await operator.withdrawERC20([ [ testToken, this.amount ] ], { from });
+    async execute(ctx: OperatorContext) {
+        const { operator, erc20, caller } = ctx;
+        return await operator.withdrawERC20([ [ erc20, this.amount ] ], { from: caller });
     }
 
-    async executeStatic({ operator, testToken, [this.caller]: from }: OperatorContext) {
-        return await operator.callStatic.withdrawERC20([ [ testToken, this.amount ] ], { from });
+    async executeStatic(ctx: OperatorContext) {
+        const { operator, erc20, caller } = ctx;
+        return await operator.callStatic.withdrawERC20([ [ erc20, this.amount ] ], { from: caller });
     }
 }

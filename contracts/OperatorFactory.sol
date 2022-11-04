@@ -3,21 +3,29 @@
 pragma solidity 0.8.15;
 
 import { IOperatorFactory } from "./interfaces/IOperatorFactory.sol";
-import { IOperatorLogicRegistry } from "./interfaces/IOperatorLogicRegistry.sol";
 import { IAddressBook } from "@frugal-wizard/addressbook/contracts/interfaces/IAddressBook.sol";
 import { Operator } from "./Operator.sol";
+import { Address } from "@openzeppelin/contracts/utils/Address.sol";
 
 /**
- * Operator factory.
+ * The Operator factory.
  *
- * All operators created by this factory use the same operator logic registry and
- * address book.
+ * Operator implementation is determined by a version number. Creating or updating
+ * an operator requires a version number is provided, and that version number has
+ * a corresponding implementation registered.
+ *
+ * Operator versions can only be registered by the version manager. Once a version
+ * has been registered it cannot be changed.
+ *
+ * All operators created by a factory use the address book defined by the factory.
+ *
+ * The factory acts as the proxy admin of the operators created by it.
  */
 contract OperatorFactory is IOperatorFactory {
     /**
-     * The operator logic registry.
+     * The operator version manager.
      */
-    IOperatorLogicRegistry private immutable _logicRegistry;
+    address private immutable _versionManager;
 
     /**
      * The address book.
@@ -25,41 +33,80 @@ contract OperatorFactory is IOperatorFactory {
     IAddressBook private immutable _addressBook;
 
     /**
-     * Addresses of operators.
+     * Operator version implementations.
      */
-    mapping(address => address) _operator;
+    mapping(uint32 => address) private _implementations;
+
+    /**
+     * Operators.
+     */
+    mapping(address => Operator) private _operators;
 
     /**
      * Constructor.
      *
-     * @param logicRegistry_ the operator logic registry
-     * @param addressBook_   the address book
+     * @param versionManager_ the operator version manager
+     * @param addressBook_    the address book
      */
-    constructor(IOperatorLogicRegistry logicRegistry_, IAddressBook addressBook_) {
-        _logicRegistry = logicRegistry_;
+    constructor(address versionManager_, IAddressBook addressBook_) {
+        _versionManager = versionManager_;
         _addressBook = addressBook_;
     }
 
-    function createOperator() external returns (address) {
-        address owner = msg.sender;
-        if (_operator[owner] != address(0)) {
+    function registerVersion(uint32 version_, address implementation_) external {
+        if (msg.sender != _versionManager) {
+            revert Unauthorized();
+        }
+        if (_implementations[version_] != address(0)) {
+            revert VersionAlreadyRegistered();
+        }
+        if (!Address.isContract(implementation_)) {
+            revert InvalidImplementation();
+        }
+        _implementations[version_] = implementation_;
+        emit OperatorVersionRegistered(version_, implementation_);
+    }
+
+    function createOperator(uint32 version_) external returns (address) {
+        address owner_ = msg.sender;
+        if (address(_operators[owner_]) != address(0)) {
             revert OperatorAlreadyCreated();
         }
-        address newOperator = address(new Operator(owner, _logicRegistry, _addressBook));
-        _operator[owner] = newOperator;
-        emit OperatorCreated(owner, newOperator);
-        return newOperator;
+        address implementation_ = _implementations[version_];
+        if (implementation_ == address(0)) {
+            revert InvalidVersion();
+        }
+        Operator newOperator = new Operator(address(this), owner_, implementation_, _addressBook);
+        _operators[owner_] = newOperator;
+        emit OperatorCreated(owner_, address(newOperator));
+        return address(newOperator);
     }
 
-    function logicRegistry() external view returns (IOperatorLogicRegistry) {
-        return _logicRegistry;
+    function updateOperator(uint32 version_) external {
+        Operator operator_ = _operators[msg.sender];
+        if (address(operator_) == address(0)) {
+            revert NoOperatorCreated();
+        }
+        address implementation_ = _implementations[version_];
+        if (implementation_ == address(0)) {
+            revert InvalidVersion();
+        }
+        operator_.upgradeTo(implementation_);
     }
 
-    function addressBook() external view returns (IAddressBook) {
+    function versionManager() public view returns (address) {
+        return _versionManager;
+    }
+
+    function versionImplementation(uint32 version_) public view returns (address) {
+        return _implementations[version_];
+    }
+
+    function addressBook() public view returns (IAddressBook) {
         return _addressBook;
     }
 
-    function operator(address owner) external view returns (address) {
-        return _operator[owner];
+    function operator(address owner_) public view returns (address) {
+        return address(_operators[owner_]);
     }
 }
