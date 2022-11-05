@@ -22,8 +22,8 @@ export class UpdateOperatorAction extends OperatorFactoryAction {
     }
 
     async execute(ctx: OperatorFactoryContext) {
-        const { operatorFactory, caller } = ctx;
-        await operatorFactory.updateOperator(this.version, { from: caller });
+        const { operatorFactory, [this.caller]: from } = ctx;
+        await operatorFactory.updateOperator(this.version, { from });
     }
 
     apply<T>(state: T) {

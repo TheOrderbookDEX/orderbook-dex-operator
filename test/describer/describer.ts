@@ -35,10 +35,19 @@ function describeCaller(description: string[], scenario: { caller: Account }) {
     }
 }
 
+function describeOperator(description: string[], scenario: { operatorOwner: Account }, preposition: string) {
+    const { operatorOwner } = scenario;
+    if (operatorOwner != Account.MAIN) {
+        description.push(preposition);
+        description.push(`operator owned by ${operatorOwner}`);
+    }
+}
+
 function describeOperatorFactoryScenario(description: string[], scenario: { versionManager: string }) {
     const { versionManager } = scenario;
     if (versionManager != Account.MAIN) {
-        description.push(`with versionManager = ${versionManager}`);
+        description.push('with');
+        description.push(`versionManager = ${versionManager}`);
     }
 }
 
@@ -100,6 +109,8 @@ describer.addDescriber(UpdateOperatorAction, function(action) {
 describer.addDescriber(DepositERC20Action, function(action) {
     const { amount } = action;
     const description = [`deposit ${formatValue(amount)} ERC20`];
+    describeCaller(description, action);
+    describeOperator(description, action, 'to');
     return description.join(' ');
 });
 
@@ -107,6 +118,7 @@ describer.addDescriber(WithdrawERC20Scenario, function(scenario) {
     const { amount } = scenario;
     const description = [`withdraw ${formatValue(amount)} ERC20`];
     describeCaller(description, scenario);
+    describeOperator(description, scenario, 'from');
     describeSetup(description, scenario);
     return description.join(' ');
 });

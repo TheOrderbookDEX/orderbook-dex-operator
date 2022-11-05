@@ -22,8 +22,8 @@ export class CreateOperatorAction extends OperatorFactoryAction {
     }
 
     async execute(ctx: OperatorFactoryContext) {
-        const { operatorFactory, caller } = ctx;
-        await operatorFactory.createOperator(this.version, { from: caller });
+        const { operatorFactory, [this.caller]: from } = ctx;
+        await operatorFactory.createOperator(this.version, { from });
     }
 
     apply<T>(state: T) {

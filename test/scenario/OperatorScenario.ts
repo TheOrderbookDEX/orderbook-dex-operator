@@ -15,36 +15,41 @@ export interface OperatorContext extends BaseTestContext {
 
 export interface OperatorScenarioProperties extends TestScenarioProperties<OperatorContext> {
     readonly caller?: Account;
+    readonly operatorOwner?: Account;
 }
 
 export abstract class OperatorScenario<TestContext extends OperatorContext, ExecuteResult, ExecuteStaticResult>
     extends TestScenario<TestContext, ExecuteResult, ExecuteStaticResult>
 {
     readonly caller: Account;
+    readonly operatorOwner: Account;
 
     constructor({
         caller = Account.MAIN,
+        operatorOwner = Account.MAIN,
         ...rest
     }: OperatorScenarioProperties) {
         super(rest);
         this.caller = caller;
+        this.operatorOwner = operatorOwner;
     }
 
     addContext(addContext: AddContextFunction): void {
         addContext('caller', this.caller);
+        addContext('operatorOwner', this.operatorOwner);
         super.addContext(addContext);
     }
 
     async _setup(): Promise<OperatorContext> {
         const ctx = await super._setup();
-        const { mainAccount, accounts, [this.caller]: caller } = ctx;
+        const { mainAccount, accounts, [this.caller]: caller, [this.operatorOwner]: operatorOwner } = ctx;
         const addressBook = await AddressBook.deploy();
         const operatorFactory = await OperatorFactory.deploy(mainAccount, addressBook);
         await operatorFactory.registerVersion(0n, await OperatorV0.deploy());
         for (const from of accounts) {
             await operatorFactory.createOperator(0n, { from });
         }
-        const operator = OperatorV0.at(await operatorFactory.operator(caller));
+        const operator = OperatorV0.at(await operatorFactory.operator(operatorOwner));
         const erc20 = await ERC20Mock.deploy('Test Token', 'TEST', 18);
         await erc20.giveMultiple(accounts.map(account => [ account, parseValue(1000000) ]));
         return { ...ctx, caller, addressBook, operatorFactory, erc20, operator };
