@@ -3,6 +3,7 @@ import { DefaultOverrides } from '@frugal-wizard/abi2ts-lib';
 import chaiAsPromised from 'chai-as-promised';
 import { describeError } from '@frugal-wizard/contract-test-helper';
 import { withdrawERC20Scenarios } from './scenarios/withdrawERC20Scenarios';
+import { UpgradeToScenario } from './scenario/UpgradeToScenario';
 
 chai.use(chaiAsPromised);
 
@@ -10,7 +11,23 @@ DefaultOverrides.gasLimit = 5000000;
 
 describe('Operator', () => {
     describe('upgradeTo', () => {
-        // TODO test that upgradeTo cannot be called by user
+        new UpgradeToScenario().describe(({ it }) => {
+            it('should revert', async (test) => {
+                await expect(test.execute())
+                    .to.be.rejected;
+            });
+
+            it('should revert without a reason', async (test) => {
+                // checking for error thrown by ethers
+                // TODO abi2ts should provide an error for revert without reason
+                await expect(test.executeStatic())
+                    .to.be.rejectedWith(Error)
+                    .to.eventually.include({
+                        code: 'CALL_EXCEPTION',
+                        data: '0x',
+                    });
+            });
+        });
     });
 
     describe('withdrawERC20', () => {
