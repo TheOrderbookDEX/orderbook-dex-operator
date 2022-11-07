@@ -1,6 +1,7 @@
 import chai, { expect } from 'chai';
-import { DefaultOverrides } from '@frugal-wizard/abi2ts-lib';
+import { DefaultOverrides, getProvider, hexstringPad } from '@frugal-wizard/abi2ts-lib';
 import chaiAsPromised from 'chai-as-promised';
+import chaiString from 'chai-string';
 import { describeError, is } from '@frugal-wizard/contract-test-helper';
 import { deployOperatorFactoryScenarios } from './scenarios/deployOperatorFactoryScenarios';
 import { registerVersionScenarios } from './scenarios/registerVersionScenarios';
@@ -10,11 +11,13 @@ import { IOperatorBase } from '../src/interfaces/IOperatorBase';
 import { updateOperatorScenarios } from './scenarios/updateOperatorScenarios';
 
 chai.use(chaiAsPromised);
+chai.use(chaiString);
 
 DefaultOverrides.gasLimit = 5000000;
 
-// TODO test proxy storage slots
-// TODO test operator owner storage slot
+const OWNER_SLOT = '0x02016836a56b71f0d02689e69e326f4f4c1b9057164ef592671cf0d37c8040c1';
+const IMPLEMENTATION_SLOT = '0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc';
+const ADMIN_SLOT = '0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103';
 
 describe('OperatorFactory', () => {
     describe('deploy', () => {
@@ -35,13 +38,13 @@ describe('OperatorFactory', () => {
                     it('should deploy with the provided version manager', async (test) => {
                         const operatorFactory = await test.execute();
                         expect(await operatorFactory.versionManager())
-                            .to.be.equal(test[scenario.versionManager]);
+                            .to.be.equalIgnoreCase(test[scenario.versionManager]);
                     });
 
                     it('should deploy with the provided address book', async (test) => {
                         const operatorFactory = await test.execute();
                         expect(await operatorFactory.addressBook())
-                            .to.be.equal(test.addressBook.address);
+                            .to.be.equalIgnoreCase(test.addressBook.address);
                     });
                 }
             });
@@ -67,7 +70,7 @@ describe('OperatorFactory', () => {
                         const { operatorFactory } = test;
                         await test.execute();
                         expect(await operatorFactory.versionImplementation(scenario.version))
-                            .to.be.equal(test.implementation.address);
+                            .to.be.equalIgnoreCase(test.implementation.address);
                     });
 
                     it('should emit an OperatorVersionRegistered event', async (test) => {
@@ -78,7 +81,7 @@ describe('OperatorFactory', () => {
                         expect(versionRegisteredEvents[0].version)
                             .to.be.equal(scenario.version);
                         expect(versionRegisteredEvents[0].implementation)
-                            .to.be.equal(test.implementation.address);
+                            .to.be.equalIgnoreCase(test.implementation.address);
                     });
                 }
             });
@@ -105,15 +108,45 @@ describe('OperatorFactory', () => {
                         const operator = IOperatorBase.at(await test.executeStatic());
                         await test.execute();
                         expect(await operator.owner())
-                            .to.be.equal(caller);
+                            .to.be.equalIgnoreCase(caller);
                     });
 
                     it('should create an operator with the implementation of the provided version', async (test) => {
                         const { operatorFactory } = test;
+                        const implementation = await operatorFactory.versionImplementation(scenario.version);
                         const operator = IOperatorBase.at(await test.executeStatic());
                         await test.execute();
                         expect(await operator.implementation())
-                            .to.be.equal(await operatorFactory.versionImplementation(scenario.version));
+                            .to.be.equalIgnoreCase(implementation);
+                    });
+
+                    it('should create an operator that has the owner stored in the expected slot', async (test) => {
+                        const { caller } = test;
+                        const operator = await test.executeStatic();
+                        await test.execute();
+                        // TODO abi2ts should provide a method to get value at storage slot
+                        expect(await getProvider().getStorageAt(operator, OWNER_SLOT))
+                            .to.be.equalIgnoreCase(hexstringPad(caller, 64));
+                    });
+
+                    it('should create an operator that has the implementation stored in the expected slot', async (test) => {
+                        const { operatorFactory } = test;
+                        const implementation = await operatorFactory.versionImplementation(scenario.version);
+                        const operator = await test.executeStatic();
+                        await test.execute();
+                        // TODO abi2ts should provide a method to get value at storage slot
+                        expect(await getProvider().getStorageAt(operator, IMPLEMENTATION_SLOT))
+                            .to.be.equalIgnoreCase(hexstringPad(implementation, 64));
+                    });
+
+                    it('should create an operator that has the admin stored in the expected slot', async (test) => {
+                        const { operatorFactory } = test;
+                        const admin = operatorFactory.address;
+                        const operator = await test.executeStatic();
+                        await test.execute();
+                        // TODO abi2ts should provide a method to get value at storage slot
+                        expect(await getProvider().getStorageAt(operator, ADMIN_SLOT))
+                            .to.be.equalIgnoreCase(hexstringPad(admin, 64));
                     });
 
                     it('should register the created operator on the address book', async (test) => {
@@ -129,7 +162,7 @@ describe('OperatorFactory', () => {
                         const operator = await test.executeStatic();
                         await test.execute();
                         expect(await operatorFactory.operator(caller))
-                            .to.be.equal(operator);
+                            .to.be.equalIgnoreCase(operator);
                     });
 
                     it('should emit an OperatorCreated event', async (test) => {
@@ -140,9 +173,9 @@ describe('OperatorFactory', () => {
                         expect(operatorCreatedEvents)
                             .to.have.length(1);
                         expect(operatorCreatedEvents[0].owner)
-                            .to.be.equal(caller);
+                            .to.be.equalIgnoreCase(caller);
                         expect(operatorCreatedEvents[0].operator)
-                            .to.be.equal(operator);
+                            .to.be.equalIgnoreCase(operator);
                     });
                 }
             });
@@ -166,10 +199,21 @@ describe('OperatorFactory', () => {
                 } else {
                     it('should update the operator implementation to the provided version', async (test) => {
                         const { operatorFactory, caller } = test;
+                        const implementation = await operatorFactory.versionImplementation(scenario.version);
                         const operator = IOperatorBase.at(await operatorFactory.operator(caller));
                         await test.execute();
                         expect(await operator.implementation())
-                            .to.be.equal(await operatorFactory.versionImplementation(scenario.version));
+                            .to.be.equalIgnoreCase(implementation);
+                    });
+
+                    it('should update the implementation slot', async (test) => {
+                        const { operatorFactory, caller } = test;
+                        const implementation = await operatorFactory.versionImplementation(scenario.version);
+                        const operator = await operatorFactory.operator(caller);
+                        await test.execute();
+                        // TODO abi2ts should provide a method to get value at storage slot
+                        expect(await getProvider().getStorageAt(operator, IMPLEMENTATION_SLOT))
+                            .to.be.equalIgnoreCase(hexstringPad(implementation, 64));
                     });
                 }
             });
