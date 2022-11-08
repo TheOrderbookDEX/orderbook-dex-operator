@@ -1,5 +1,5 @@
 import chai, { expect } from 'chai';
-import { DefaultOverrides } from '@frugal-wizard/abi2ts-lib';
+import { DefaultOverrides, RevertWithoutReason } from '@frugal-wizard/abi2ts-lib';
 import chaiAsPromised from 'chai-as-promised';
 import { describeError } from '@frugal-wizard/contract-test-helper';
 import { withdrawERC20Scenarios } from './scenarios/withdrawERC20Scenarios';
@@ -18,14 +18,8 @@ describe('Operator', () => {
             });
 
             it('should revert without a reason', async (test) => {
-                // checking for error thrown by ethers
-                // TODO abi2ts should provide an error for revert without reason
                 await expect(test.executeStatic())
-                    .to.be.rejectedWith(Error)
-                    .to.eventually.include({
-                        code: 'CALL_EXCEPTION',
-                        data: '0x',
-                    });
+                    .to.be.rejectedWith(RevertWithoutReason);
             });
         });
     });

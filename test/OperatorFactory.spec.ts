@@ -1,5 +1,5 @@
 import chai, { expect } from 'chai';
-import { DefaultOverrides, getProvider, hexstringPad } from '@frugal-wizard/abi2ts-lib';
+import { DefaultOverrides, getStorageSlot, hexstringPad } from '@frugal-wizard/abi2ts-lib';
 import chaiAsPromised from 'chai-as-promised';
 import chaiString from 'chai-string';
 import { describeError, is } from '@frugal-wizard/contract-test-helper';
@@ -124,8 +124,7 @@ describe('OperatorFactory', () => {
                         const { caller } = test;
                         const operator = await test.executeStatic();
                         await test.execute();
-                        // TODO abi2ts should provide a method to get value at storage slot
-                        expect(await getProvider().getStorageAt(operator, OWNER_SLOT))
+                        expect(await getStorageSlot(operator, OWNER_SLOT))
                             .to.be.equalIgnoreCase(hexstringPad(caller, 64));
                     });
 
@@ -134,8 +133,7 @@ describe('OperatorFactory', () => {
                         const implementation = await operatorFactory.versionImplementation(scenario.version);
                         const operator = await test.executeStatic();
                         await test.execute();
-                        // TODO abi2ts should provide a method to get value at storage slot
-                        expect(await getProvider().getStorageAt(operator, IMPLEMENTATION_SLOT))
+                        expect(await getStorageSlot(operator, IMPLEMENTATION_SLOT))
                             .to.be.equalIgnoreCase(hexstringPad(implementation, 64));
                     });
 
@@ -144,8 +142,7 @@ describe('OperatorFactory', () => {
                         const admin = operatorFactory.address;
                         const operator = await test.executeStatic();
                         await test.execute();
-                        // TODO abi2ts should provide a method to get value at storage slot
-                        expect(await getProvider().getStorageAt(operator, ADMIN_SLOT))
+                        expect(await getStorageSlot(operator, ADMIN_SLOT))
                             .to.be.equalIgnoreCase(hexstringPad(admin, 64));
                     });
 
@@ -211,8 +208,7 @@ describe('OperatorFactory', () => {
                         const implementation = await operatorFactory.versionImplementation(scenario.version);
                         const operator = await operatorFactory.operator(caller);
                         await test.execute();
-                        // TODO abi2ts should provide a method to get value at storage slot
-                        expect(await getProvider().getStorageAt(operator, IMPLEMENTATION_SLOT))
+                        expect(await getStorageSlot(operator, IMPLEMENTATION_SLOT))
                             .to.be.equalIgnoreCase(hexstringPad(implementation, 64));
                     });
                 }
