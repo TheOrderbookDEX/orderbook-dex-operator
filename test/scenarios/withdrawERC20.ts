@@ -1,5 +1,5 @@
-import { DefaultError, parseValue } from '@frugal-wizard/abi2ts-lib';
-import { Account, generatorChain } from '@frugal-wizard/contract-test-helper';
+import { DefaultError, parseValue } from '@frugalwizard/abi2ts-lib';
+import { Account, generatorChain } from '@frugalwizard/contract-test-helper';
 import { Unauthorized } from '../../src/OperatorV0';
 import { createDepositERC20Action } from '../action/depositERC20';
 import { createWithdrawERC20Scenario } from '../scenario/withdrawERC20';

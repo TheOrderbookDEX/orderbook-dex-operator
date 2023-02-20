@@ -1,8 +1,8 @@
 import chai, { expect } from 'chai';
-import { DefaultOverrides, getStorageSlot, hexstringPad } from '@frugal-wizard/abi2ts-lib';
+import { DefaultOverrides, getStorageSlot, hexstringPad } from '@frugalwizard/abi2ts-lib';
 import chaiAsPromised from 'chai-as-promised';
 import chaiString from 'chai-string';
-import { is } from '@frugal-wizard/contract-test-helper';
+import { is } from '@frugalwizard/contract-test-helper';
 import { OperatorCreated } from '../src/OperatorFactory';
 import { createOperatorScenarios } from './scenarios/createOperator';
 import { IOperatorBase } from '../src/interfaces/IOperatorBase';

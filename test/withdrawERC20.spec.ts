@@ -1,5 +1,5 @@
 import chai, { expect } from 'chai';
-import { DefaultOverrides } from '@frugal-wizard/abi2ts-lib';
+import { DefaultOverrides } from '@frugalwizard/abi2ts-lib';
 import chaiAsPromised from 'chai-as-promised';
 import { withdrawERC20Scenarios } from './scenarios/withdrawERC20';
 

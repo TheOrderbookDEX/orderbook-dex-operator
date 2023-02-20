@@ -1,5 +1,5 @@
-import { ContractError, Transaction } from '@frugal-wizard/abi2ts-lib';
-import { Account, Addresses, EthereumSetupContext, executeSetupActions, TestSetupContext } from '@frugal-wizard/contract-test-helper';
+import { ContractError, Transaction } from '@frugalwizard/abi2ts-lib';
+import { Account, Addresses, EthereumSetupContext, executeSetupActions, TestSetupContext } from '@frugalwizard/contract-test-helper';
 import { OperatorV0 } from '../../src/OperatorV0';
 import { OperatorFactoryAction } from '../action/factory';
 import { describeRegisterVersionScenario } from '../describe/registerVersion';

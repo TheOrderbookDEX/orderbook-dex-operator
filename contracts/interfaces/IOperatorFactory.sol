@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import { IAddressBook } from "@frugal-wizard/addressbook/contracts/interfaces/IAddressBook.sol";
+import { IAddressBook } from "@frugalwizard/addressbook/contracts/interfaces/IAddressBook.sol";
 
 /**
  * The Operator factory.

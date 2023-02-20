@@ -1,4 +1,4 @@
-import { Account } from '@frugal-wizard/contract-test-helper';
+import { Account } from '@frugalwizard/contract-test-helper';
 import { describeDepositERC20Action } from '../describe/depositERC20';
 import { OperatorAction } from './operator';
 

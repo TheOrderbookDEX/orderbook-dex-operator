@@ -1,5 +1,5 @@
 import chai, { expect } from 'chai';
-import { DefaultOverrides, RevertWithoutReason } from '@frugal-wizard/abi2ts-lib';
+import { DefaultOverrides, RevertWithoutReason } from '@frugalwizard/abi2ts-lib';
 import chaiAsPromised from 'chai-as-promised';
 import { createUpgradeToScenario } from './scenario/upgradeTo';
 

@@ -1,4 +1,4 @@
-import { Account } from '@frugal-wizard/contract-test-helper';
+import { Account } from '@frugalwizard/contract-test-helper';
 import { describeCreateOperatorAction } from '../describe/createOperator';
 import { OperatorFactoryAction } from './factory';
 

@@ -3,7 +3,7 @@
 pragma solidity 0.8.17;
 
 import { IOperatorAdmin } from "./interfaces/IOperatorAdmin.sol";
-import { IAddressBook } from "@frugal-wizard/addressbook/contracts/interfaces/IAddressBook.sol";
+import { IAddressBook } from "@frugalwizard/addressbook/contracts/interfaces/IAddressBook.sol";
 import { Proxy } from "@openzeppelin/contracts/proxy/Proxy.sol";
 import { ERC1967Upgrade } from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Upgrade.sol";
 import { OperatorOwner } from "./OperatorOwner.sol";

@@ -1,5 +1,5 @@
-import { Transaction, ZERO_ADDRESS } from '@frugal-wizard/abi2ts-lib';
-import { Account, EthereumSetupContext, TestSetupContext } from '@frugal-wizard/contract-test-helper';
+import { Transaction, ZERO_ADDRESS } from '@frugalwizard/abi2ts-lib';
+import { Account, EthereumSetupContext, TestSetupContext } from '@frugalwizard/contract-test-helper';
 import { IOperatorAdmin } from '../../src/interfaces/IOperatorAdmin';
 import { createOperatorScenario, OperatorContext, OperatorScenario } from './operator';
 

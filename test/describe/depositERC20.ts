@@ -1,4 +1,4 @@
-import { formatValue } from '@frugal-wizard/abi2ts-lib';
+import { formatValue } from '@frugalwizard/abi2ts-lib';
 import { describeCaller } from './caller';
 import { describeOperator } from './operator';
 

@@ -1,5 +1,5 @@
 import chai, { expect } from 'chai';
-import { DefaultOverrides, getStorageSlot, hexstringPad } from '@frugal-wizard/abi2ts-lib';
+import { DefaultOverrides, getStorageSlot, hexstringPad } from '@frugalwizard/abi2ts-lib';
 import chaiAsPromised from 'chai-as-promised';
 import chaiString from 'chai-string';
 import { IOperatorBase } from '../src/interfaces/IOperatorBase';

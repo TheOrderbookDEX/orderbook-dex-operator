@@ -1,8 +1,8 @@
 import chai, { expect } from 'chai';
-import { DefaultOverrides } from '@frugal-wizard/abi2ts-lib';
+import { DefaultOverrides } from '@frugalwizard/abi2ts-lib';
 import chaiAsPromised from 'chai-as-promised';
 import chaiString from 'chai-string';
-import { is } from '@frugal-wizard/contract-test-helper';
+import { is } from '@frugalwizard/contract-test-helper';
 import { registerVersionScenarios } from './scenarios/registerVersion';
 import { OperatorVersionRegistered } from '../src/OperatorFactory';
 

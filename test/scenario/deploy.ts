@@ -1,7 +1,7 @@
-import { Account, createEthereumScenario, EthereumScenario, EthereumSetupContext, TestSetupContext } from '@frugal-wizard/contract-test-helper';
+import { Account, createEthereumScenario, EthereumScenario, EthereumSetupContext, TestSetupContext } from '@frugalwizard/contract-test-helper';
 import { OperatorFactory } from '../../src/OperatorFactory';
-import { AddressBook } from '@frugal-wizard/addressbook/dist/AddressBook';
-import { ContractError } from '@frugal-wizard/abi2ts-lib';
+import { AddressBook } from '@frugalwizard/addressbook/dist/AddressBook';
+import { ContractError } from '@frugalwizard/abi2ts-lib';
 import { describeDeployOperatorFactoryScenario } from '../describe/deploy';
 
 export type DeployOperatorFactoryScenario = {

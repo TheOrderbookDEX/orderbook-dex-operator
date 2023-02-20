@@ -1,4 +1,4 @@
-import { Account, generatorChain } from '@frugal-wizard/contract-test-helper';
+import { Account, generatorChain } from '@frugalwizard/contract-test-helper';
 import { InvalidVersion, OperatorAlreadyCreated } from '../../src/OperatorFactory';
 import { createCreateOperatorAction } from '../action/createOperator';
 import { createRegisterVersionAction } from '../action/registerVersion';

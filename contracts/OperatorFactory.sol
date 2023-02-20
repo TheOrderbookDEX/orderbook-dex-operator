@@ -3,7 +3,7 @@
 pragma solidity 0.8.17;
 
 import { IOperatorFactory } from "./interfaces/IOperatorFactory.sol";
-import { IAddressBook } from "@frugal-wizard/addressbook/contracts/interfaces/IAddressBook.sol";
+import { IAddressBook } from "@frugalwizard/addressbook/contracts/interfaces/IAddressBook.sol";
 import { Operator } from "./Operator.sol";
 import { Address } from "@openzeppelin/contracts/utils/Address.sol";
 

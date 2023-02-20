@@ -1,5 +1,5 @@
-import { ContractError, formatValue, Transaction } from '@frugal-wizard/abi2ts-lib';
-import { Account, EthereumSetupContext, executeSetupActions, TestSetupContext } from '@frugal-wizard/contract-test-helper';
+import { ContractError, formatValue, Transaction } from '@frugalwizard/abi2ts-lib';
+import { Account, EthereumSetupContext, executeSetupActions, TestSetupContext } from '@frugalwizard/contract-test-helper';
 import { OperatorAction } from '../action/operator';
 import { describeWithdrawERC20Scenario } from '../describe/withdrawERC20';
 import { createOperatorScenario, OperatorContext, OperatorScenario } from './operator';
